@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', PagesController.home)
 
-app.get('/api/users', /*authenticate,*/ async (req, res) => {
+app.get('/api/users', authenticate, async (req, res) => {
   //const users = [{ id:1, name: 'Imie Usera'}]
   const users = await User.query()
   /*.withGraphFetched('Posts')*/
@@ -29,14 +29,14 @@ app.get('/api/users', /*authenticate,*/ async (req, res) => {
   res.send(users)
 })
 
-app.get('/api/posts', /*authenticate,*/ async (req, res) => {
+app.get('/api/posts', authenticate, async (req, res) => {
   
   const posts = await Posts.query()
 
   res.send(posts)
 })
 
-app.get('/api/posts/:id', /*authenticate,*/ async (req, res) => {
+app.get('/api/posts/:id', authenticate, async (req, res) => {
   //const users = [{ id:1, name: 'Imie Usera'}]
   
   const post = await Posts.query().findById(req.params);
@@ -46,7 +46,7 @@ app.get('/api/posts/:id', /*authenticate,*/ async (req, res) => {
 })
 
 //ADD POSTS
-app.post('/api/add/record', async (req, res) => { 
+app.post('/api/add/record', authenticate, async (req, res) => { 
   
   const addRecord = await Posts.query().insert({
     'id': uuidv4(),
@@ -76,14 +76,14 @@ app.put('/api/edit/record/:id', async (req, res) => {
 
 
 
-app.delete('/api/deleterecord/:id', /*authenticate,*/ async (req, res) => {
+app.delete('/api/deleterecord/:id', authenticate, async (req, res) => {
   const post = await Posts.query().deleteById(req.params);
   /*.withGraphFetched('Posts')*/
 
   console.log(post, ' WAS DELETED')
 })
 
-app.delete('/api/deleterecord/:from/:to', /*authenticate,*/ async (req, res) => {
+app.delete('/api/deleterecord/:from/:to', authenticate, async (req, res) => {
   let from = parseInt(req.params.from);
   let to = parseInt(req.params.to);
 
@@ -98,7 +98,7 @@ app.delete('/api/deleterecord/:from/:to', /*authenticate,*/ async (req, res) => 
 
 
 
-app.get('/api/users/:id', /*authenticate,*/ async (req, res) => {
+app.get('/api/users/:id', authenticate, async (req, res) => {
   //const users = [{ id:1, name: 'Imie Usera'}]
   
   const user = await User.query().findById(req.params);
