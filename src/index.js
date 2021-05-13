@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import { v4 as uuidv4 } from 'uuid'
-// import ejs from 'ejs'
 
 const PagesController = require('./controllers/PagesController');
 const UsersController = require('./controllers/UsersController');
@@ -61,10 +60,11 @@ app.post('/api/add/record', async (req, res) => {
 })
 
 //EDIT POST
-app.put('/api/edit/record', async (req, res) => { 
+app.put('/api/edit/record/:id', async (req, res) => { 
   
-  const addRecord = await Posts.query().insert({
-    'id': uuidv4(),
+  const addRecord = await Posts.query()
+  .findById(req.params)
+  .patch({
     "title": req.body.title,
     'lead': req.body.lead,
     'content': req.body.content
