@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs');
-//app.set('view engine', 'html');
+
 
 app.get('/', PagesController.home)
 
@@ -61,7 +61,7 @@ app.post('/api/add/record', async (req, res) => {
 })
 
 //EDIT POST
-app.post('/api/edit/record', async (req, res) => { 
+app.put('/api/edit/record', async (req, res) => { 
   
   const addRecord = await Posts.query().insert({
     'id': uuidv4(),
