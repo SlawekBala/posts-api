@@ -7,6 +7,9 @@ import { v4 as uuidv4 } from 'uuid'
 
 const PagesController = require('./controllers/PagesController');
 const UsersController = require('./controllers/UsersController');
+const ShowPostsController = require('./controllers/ShowPostsController');
+const AddPostController = require('./controllers/AddPostController');
+const DeletePostController = require('./controllers/DeletePostController');
 
 import User from './models/User'
 import Posts from './models/Posts'
@@ -29,35 +32,11 @@ app.get('/api/users', authenticate, async (req, res) => {
   res.send(users)
 })
 
-app.get('/api/posts', authenticate, async (req, res) => {
-  
-  const posts = await Posts.query()
+app.get('/api/posts', /*authenticate,*/ ShowPostsController.getAllPosts);
 
-  res.send(posts)
-})
+app.get('/api/posts/:id', /*authenticate,*/ ShowPostsController.getPost);
 
-app.get('/api/posts/:id', authenticate, async (req, res) => {
-  //const users = [{ id:1, name: 'Imie Usera'}]
-  
-  const post = await Posts.query().findById(req.params);
-  /*.withGraphFetched('Posts')*/
-
-  res.send(post)
-})
-
-//ADD POSTS
-app.post('/api/add/record', authenticate, async (req, res) => { 
-  
-  const addRecord = await Posts.query().insert({
-    'id': uuidv4(),
-    "title": req.body.title,
-    'lead': req.body.lead,
-    'content': req.body.content
-  });
-
-  console.log(req.body)
-  res.json(req.body)
-})
+app.post('/api/add/record', /*authenticate,*/ AddPostController.addPost);
 
 //EDIT POST
 app.put('/api/edit/record/:id', async (req, res) => { 
@@ -76,24 +55,9 @@ app.put('/api/edit/record/:id', async (req, res) => {
 
 
 
-app.delete('/api/deleterecord/:id', authenticate, async (req, res) => {
-  const post = await Posts.query().deleteById(req.params);
-  /*.withGraphFetched('Posts')*/
+app.delete('/api/deleterecord/:id', /*authenticate,*/ DeletePostController.deletePost);
 
-  console.log(post, ' WAS DELETED')
-})
-
-app.delete('/api/deleterecord/:from/:to', authenticate, async (req, res) => {
-  let from = parseInt(req.params.from);
-  let to = parseInt(req.params.to);
-
-  const posts = await Posts.query()
-  .delete().where('id >=', from, 'and id <=', to);
-
-  console.log(posts, ' WERE DELETED')
-})
-
-
+app.delete('/api/deleterecords/:uuidfrom/:uuidto', /*authenticate, */ DeletePostController.deletePosts);
 
 
 
