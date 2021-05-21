@@ -51,7 +51,7 @@ app.get('/api/posts/:id', authenticate, ShowPostsController.getPost);
 
 app.post('/api/add/record', authenticate, AddPostController.addPost);
 
-app.put('/api/edit/record/:id', /*authenticate,*/ EditPostController.editPost);
+app.put('/api/edit/record/:id', authenticate, EditPostController.editPost);
 
 app.delete('/api/deleterecord/:id', authenticate, DeletePostController.deletePost);
 
