@@ -51,11 +51,12 @@ app.get('/api/posts/:id', authenticate, ShowPostsController.getPost);
 
 app.post('/api/add/record', authenticate, AddPostController.addPost);
 
-app.patch('/api/edit/record/:id', /*authenticate,*/ EditPostController.editPost);
+app.put('/api/edit/record/:id', /*authenticate,*/ EditPostController.editPost);
 
 app.delete('/api/deleterecord/:id', authenticate, DeletePostController.deletePost);
 
 app.delete('/api/deleterecords/:uuidfrom/:uuidto', authenticate, DeletePostController.deletePosts);
+
 
 app.listen(3000, () => {
   console.log('Serwer działa')

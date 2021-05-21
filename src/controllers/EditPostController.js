@@ -18,7 +18,7 @@ exports.editPost = async (req, res) => {
   // .where();
 
   const findPost = await Posts.query().findOne(req.params);
-  const updatedPost = findPost.$query().patch({
+  const updatedPost = findPost.query().patch({
     title: req.body.title,
     lead: req.body.lead,
     content: req.body.content
