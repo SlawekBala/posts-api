@@ -13,10 +13,6 @@ exports.editPost = async (req, res) => {
   //   content: req.body.content
   // }).findOne(req.params);
 
-  // const numberOfAffectedRows = await Person.query()
-  // .patch({ age: 20 })
-  // .where();
-
   const findPost = await Posts.query().findOne(req.params);
   const updatedPost = findPost.$query().patch({
     title: req.body.title,
